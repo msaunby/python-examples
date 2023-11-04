@@ -1,39 +1,34 @@
+# Read a poem with repeated lines and output
+# a Python program that recreate the poem.
 
 poem_dict = {}
 verses = []
 
 with open("poem.txt") as poem:
-    line_no = 0
-    verse_no = 0
     verse = []
     lines = poem.readlines()
     for line in lines:
         line = line.strip()
         if not line:
             verses.append(verse)
-            verse_no += 1
             verse = []
             continue
         verse.append(line)
-        if line in poem_dict:
-            poem_dict[line].append(line_no)
-        else:
-            poem_dict[line] = [line_no]
-        line_no += 1
+        # Use a dict to store unique lines
+        poem_dict[line] = True
+    verses.append(verse)
 
+
+# Give each line a unique index. These then
+# replace the lines in the verses list.
 lines_dict = {}
 lines_rev = {}
-index_dict = {}
-
 lines_ref = 0
-for (k,v) in poem_dict.items():
+
+for k in poem_dict.keys():
     lines_dict[lines_ref] = k
     lines_rev[k] = lines_ref
-    for n in v:
-         index_dict[n] = lines_ref
     lines_ref += 1
-
-last_line = sorted(index_dict.keys())[-1]+1
 
 for v in range(len(verses)):
     nv = []
